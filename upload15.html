@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #2f3640;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input[type="file"] {
+      margin: 10px 0;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #0984e3;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #74b9ff;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #2d3436;
+    }
+    .progress {
+      margin-top: 20px;
+      height: 20px;
+      background: #dfe6e9;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: #00b894;
+      transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎓 Certificate Generator</h1>
+
+    <p>Upload Excel (coming later) or use mock data for now</p>
+    <input type="file" id="excelFile" accept=".xlsx, .xls">
+
+    <br>
+    <button id="previewBtn">Preview Participants</button>
+    <button id="downloadZipBtn">Download All Certificates (ZIP)</button>
+
+    <div id="status">Status: Waiting...</div>
+
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <ul id="participantsList"></ul>
+  </div>
+
+  <script>
+    const MOCK_EXCEL_DATA = [
+      { Name: "Amit Kumar", Email: "amit@gmail.com", Event: "AI Summit", Date: "10-10-2025", Organizer: "EventEye" },
+      { Name: "Priya Singh", Email: "priya@gmail.com", Event: "AI Summit", Date: "10-10-2025", Organizer: "EventEye" },
+      { Name: "Ravi Mehta", Email: "ravi@gmail.com", Event: "AI Summit", Date: "10-10-2025", Organizer: "EventEye" }
+    ];
+
+    let participantsData = [...MOCK_EXCEL_DATA]; // abhi ke liye mock
+
+    // Function to preview participants
+    function previewParticipants() {
+      const list = document.getElementById("participantsList");
+      list.innerHTML = "";
+      participantsData.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = `${p.Name} (${p.Email}) - ${p.Event}`;
+        list.appendChild(li);
+      });
+      document.getElementById("status").innerText = "Status: Preview Loaded ✅";
+    }
+
+    // Generate PDF for one participant
+   // Generate a styled certificate for one participant
+async function generatePDF(participant) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("landscape", "pt", "a4"); // landscape A4
+
+  // Background color / border
+  doc.setDrawColor(0, 102, 204); // Blue border
+  doc.setLineWidth(4);
+  doc.rect(20, 20, doc.internal.pageSize.getWidth()-40, doc.internal.pageSize.getHeight()-40);
+
+  // Title
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(36);
+  doc.setTextColor(0, 51, 102);
+  doc.text("Certificate of Participation", doc.internal.pageSize.getWidth()/2, 120, { align: "center" });
+
+  // Subtitle
+  doc.setFontSize(18);
+  doc.setFont("times", "italic");
+  doc.setTextColor(60,60,60);
+  doc.text("This certificate is proudly presented to", doc.internal.pageSize.getWidth()/2, 170, { align: "center" });
+
+  // Participant Name
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(28);
+  doc.setTextColor(20,20,20);
+  doc.text(participant.Name, doc.internal.pageSize.getWidth()/2, 230, { align: "center" });
+
+  // Event details
+  doc.setFont("times", "normal");
+  doc.setFontSize(16);
+  doc.setTextColor(80,80,80);
+  doc.text(`for successfully participating in "${participant.Event}"`, doc.internal.pageSize.getWidth()/2, 280, { align: "center" });
+
+  doc.text(`Date: ${participant.Date}`, doc.internal.pageSize.getWidth()/2, 320, { align: "center" });
+  doc.text(`Organizer: ${participant.Organizer}`, doc.internal.pageSize.getWidth()/2, 350, { align: "center" });
+
+  // Signature line
+  doc.setLineWidth(1);
+  doc.line(120, 420, 280, 420); // left signature line
+  doc.line(500, 420, 660, 420); // right signature line
+
+  doc.setFontSize(14);
+  doc.text("Authorized Signatory", 200, 440, { align: "center" });
+  doc.text("Head of Department", 580, 440, { align: "center" });
+
+  return doc.output("arraybuffer");
+}
+
+
+    // Generate ZIP and download
+    async function generateAndDownloadZip() {
+      const zip = new JSZip();
+      const progressBar = document.getElementById("progressBar");
+      let deliveredCount = 0;
+
+      for (let i = 0; i < participantsData.length; i++) {
+        const participant = participantsData[i];
+        const pdfData = await generatePDF(participant);
+        const fileName = `${participant.Name.replace(/\s+/g, "_")}_certificate.pdf`;
+        zip.file(fileName, pdfData);
+
+        deliveredCount++;
+        progressBar.style.width = ((deliveredCount / participantsData.length) * 100) + "%";
+        document.getElementById("status").innerText = `Generated ${deliveredCount}/${participantsData.length} certificates...`;
+      }
+
+      zip.generateAsync({ type: "blob" }).then(content => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(content);
+        link.download = "certificates.zip";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        document.getElementById("status").innerText = "✅ ZIP Downloaded!";
+      });
+    }
+
+    document.getElementById("previewBtn").addEventListener("click", previewParticipants);
+    document.getElementById("downloadZipBtn").addEventListener("click", generateAndDownloadZip);
+  </script>
+</body>
+</html>

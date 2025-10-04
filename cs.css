@@ -1,0 +1,302 @@
+/*
+ * Color Palette:
+ * Primary/Tech Blue: #007bff (Efficiency, Trust)
+ * Accent Green: #28a745 (Success, Delivered)
+ * Backgrounds: #f4f7f9 (Light Gray), #ffffff (White)
+ * Text: #343a40 (Dark Gray)
+ */
+
+/* GLOBAL STYLES & RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #343a40;
+    line-height: 1.6;
+    background-color: #ffffff;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+section {
+    padding: 80px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* BUTTON STYLES (CTA) */
+.cta-button {
+    background-color: #007bff; /* Primary Blue */
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.0rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* 1. NAVIGATION BAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.logo {
+    font-size: 2.0rem;
+    font-weight: 900;
+    color: #007bff;
+}
+
+.navbar nav a {
+    margin-left: 30px;
+    text-decoration: none;
+    color: #343a40;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar nav a:hover {
+    color: #007bff;
+}
+
+/* 2. HERO SECTION */
+.hero-section {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.hero-content {
+    flex: 1.2;
+}
+
+.hero-content h1 {
+    font-size: 3.2rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    color: #6c757d;
+    margin-bottom: 40px;
+}
+
+.hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.mockup-placeholder {
+    width: 450px;
+    height: 300px;
+    background-color: #e9ecef;
+    border: 5px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* 3. PROBLEM STATEMENT */
+.problem-section {
+    background-color: #f4f7f9; /* Light Gray Background */
+    text-align: center;
+}
+
+.problem-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+}
+
+.challenge-card {
+    background-color: #f8d7da; /* Light Red/Alert background */
+    color: #721c24; /* Dark Red text */
+    padding: 30px 40px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #f5c6cb;
+}
+
+.challenge-card i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #dc3545; /* Red icon */
+}
+
+.challenge-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #721c24;
+}
+
+/* 4. SOLUTION & CORE FEATURES */
+.solution-section {
+    text-align: center;
+}
+
+.solution-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 60px;
+    color: #007bff;
+}
+
+.feature-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    flex: 1;
+    text-align: center;
+}
+
+.feature-card i {
+    font-size: 3rem;
+    color: #007bff; /* Blue for process */
+    margin-bottom: 15px;
+}
+
+.accent-card i {
+    color: #28a745; /* Green for success/verification */
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+/* 5. TRACKING DASHBOARD */
+.dashboard-section {
+    background-color: #f4f7f9;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.dashboard-content {
+    flex: 1;
+}
+
+.dashboard-content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.dashboard-content p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.status-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 1.1rem;
+}
+
+.status-list li {
+    margin-bottom: 15px;
+}
+
+.status-list i {
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.delivered { color: #28a745; }
+.pending { color: #ffc107; }
+.bounced { color: #dc3545; }
+
+.dashboard-visual {
+    flex: 1.3;
+}
+
+.detail-view {
+    height: 400px; /* Taller placeholder for the detailed dashboard */
+    border: 8px solid #343a40;
+    background-color: #ffffff;
+    color: #343a40;
+}
+
+/* 6. FOOTER */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 50px 5%;
+    text-align: center;
+}
+
+.footer-cta-container {
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+.footer-cta-container h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.footer-cta-container p {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    color: #adb5bd;
+}
+
+.copyright {
+    font-size: 0.9rem;
+    color: #adb5bd;
+}
+
+/* --- MEDIA QUERIES for Responsiveness --- */
+@media (max-width: 992px) {
+    .hero-section, .dashboard-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-visual {
+        order: -1;
+        margin-bottom: 40px;
+    }
+
+    .feature-grid {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .dashboard-visual {
+        margin-top: 40px;
+    }
+}
